@@ -24,10 +24,12 @@ void ChangeScene(Aspen::Graphics::UI::Button *button, std::string scene, GameSta
 
 class MainMenu : public GameState
 {
+  Aspen::Graphics::UI::Text *title;
+
 public:
   MainMenu(Object *parent = nullptr, std::string name = "MainMenu") : GameState(parent, name)
   {
-    Aspen::Graphics::UI::Text *title = new Aspen::Graphics::UI::Text("My Cool Game", "default", 64, this, "Title");
+    title = new Aspen::Graphics::UI::Text("M", "default", 64, this, "Title");
     AddChild(title);
     title->GetTransform()->SetPosition(438, 50);
     title->GetTransform()->SetScale(0.8, 0.8);
@@ -38,6 +40,22 @@ public:
     if (Aspen::Input::KeyHeld(SDLK_a))
     {
       Aspen::Log::Info("A is held");
+      title->GetTransform()->ModifyPosition(-5, 0);
+    }
+    if (Aspen::Input::KeyHeld(SDLK_d))
+    {
+      Aspen::Log::Info("D is held");
+      title->GetTransform()->ModifyPosition(5, 0);
+    }
+    if (Aspen::Input::KeyHeld(SDLK_w))
+    {
+      Aspen::Log::Info("W is held");
+      title->GetTransform()->ModifyPosition(0, -5);
+    }
+    if (Aspen::Input::KeyHeld(SDLK_s))
+    {
+      Aspen::Log::Info("S is held");
+      title->GetTransform()->ModifyPosition(0, 5);
     }
   }
 };
