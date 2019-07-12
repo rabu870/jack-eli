@@ -33,35 +33,30 @@ public:
     AddChild(title);
     title->GetTransform()->SetPosition(438, 50);
     title->GetTransform()->SetScale(0.8, 0.8);
-    title->CreateChild<Aspen::Physics::Rigidbody>()->SetCartesianAcceleration(0.15, 0);
+    title->CreateChild<Aspen::Physics::Rigidbody>();
   }
 
   void OnUpdate()
   {
-    if (Aspen::Input::KeyHeld(SDLK_SPACE))
+    double xv = title->GetRigidbody()->GetVelocityX();
+    double yv = title->GetRigidbody()->GetVelocityY();
+    if (Aspen::Input::KeyHeld(SDLK_w))
     {
-      title->GetRigidbody()->SetCartesianVelocity(0, -5);
+      yv += -0.5;
     }
-    // if (Aspen::Input::KeyHeld(SDLK_a))
-    // {
-    //   Aspen::Log::Info("A is held");
-    //   title->GetTransform()->ModifyPosition(-5, 0);
-    // }
-    // if (Aspen::Input::KeyHeld(SDLK_d))
-    // {
-    //   Aspen::Log::Info("D is held");
-    //   title->GetTransform()->ModifyPosition(5, 0);
-    // }
-    // if (Aspen::Input::KeyHeld(SDLK_w))
-    // {
-    //   Aspen::Log::Info("W is held");
-    //   title->GetTransform()->ModifyPosition(0, -5);
-    // }
-    // if (Aspen::Input::KeyHeld(SDLK_s))
-    // {
-    //   Aspen::Log::Info("S is held");
-    //   title->GetTransform()->ModifyPosition(0, 5);
-    // }
+    if (Aspen::Input::KeyHeld(SDLK_a))
+    {
+      xv += -0.5;
+    }
+    if (Aspen::Input::KeyHeld(SDLK_d))
+    {
+      xv += 0.5;
+    }
+    if (Aspen::Input::KeyHeld(SDLK_s))
+    {
+      yv += 0.5;
+    }
+    title->GetRigidbody()->SetCartesianVelocity(xv, yv);
   }
 };
 
