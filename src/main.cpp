@@ -50,6 +50,7 @@ public:
 
   void OnUpdate()
   {
+<<<<<<< HEAD
     // double xv = title->GetRigidbody()->GetVelocityX();
     // double yv = title->GetRigidbody()->GetVelocityY();
     // if (Aspen::Input::KeyHeld(SDLK_w))
@@ -57,7 +58,6 @@ public:
     //   yv += -0.5;
     // }
     // if (Aspen::Input::KeyHeld(SDLK_a))
-    // {
     //   xv += -0.5;
     // }
     // if (Aspen::Input::KeyHeld(SDLK_d))
@@ -69,27 +69,27 @@ public:
     //   yv += 0.5;
     // }
     // title->GetRigidbody()->SetCartesianVelocity(xv, yv);
-  }
-};
+    == == == =
+                 double xv = title->GetRigidbody()->GetVelocityX();
+    double yv = title->GetRigidbody()->GetVelocityY();
+    if (Aspen::Input::KeyHeld(SDLK_w))
+    {
+      yv += -0.5;
+    }
+    if (Aspen::Input::KeyHeld(SDLK_a))
+    {
+      Aspen::Log::Log::SetFile("./Aspen.log");
 
-class Game : public GameState
-{
-};
+      Engine engine(Aspen::Engine::START_FLAGS::ALL);
+      engine.FindChildOfType<Aspen::Physics::Physics>()->SetGravityStrength(0);
+      engine.FindChildOfType<Aspen::Physics::Physics>()->SetDrag(0.1);
+      engine.FindChildOfType<Aspen::Time::Time>()->TargetFramerate(60);
+      engine.FindChildOfType<Aspen::Graphics::Graphics>()->FindChildOfType<Aspen::Graphics::FontCache>()->LoadFont("resources/ABeeZee-Regular.ttf", "default");
 
-int main(int argc, char **argv)
-{
-  Aspen::Log::Log::SetFile("./Aspen.log");
+      engine.FindChildOfType<GameStateManager>()->LoadState<MainMenu>(true);
+      //engine.FindChildOfType<GameStateManager>()->LoadState<Game>(false);
 
-  Engine engine(Aspen::Engine::START_FLAGS::ALL);
-  engine.FindChildOfType<Aspen::Physics::Physics>()->SetGravityStrength(0);
-  engine.FindChildOfType<Aspen::Physics::Physics>()->SetDrag(0.1);
-  engine.FindChildOfType<Aspen::Time::Time>()->TargetFramerate(60);
-  engine.FindChildOfType<Aspen::Graphics::Graphics>()->FindChildOfType<Aspen::Graphics::FontCache>()->LoadFont("resources/ABeeZee-Regular.ttf", "default");
-
-  engine.FindChildOfType<GameStateManager>()->LoadState<MainMenu>(true);
-  //engine.FindChildOfType<GameStateManager>()->LoadState<Game>(false);
-
-  while (engine)
-    engine();
-  return 0;
-}
+      while (engine)
+        engine();
+      return 0;
+    }
