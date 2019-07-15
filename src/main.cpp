@@ -22,46 +22,53 @@ void ChangeScene(Aspen::Graphics::UI::Button *button, std::string scene, GameSta
   gsm->SetCurrentState(scene);
 }
 
+class loadingAnimation : Aspen::Graphics::Animation
+{
+public:
+  loadingAnimation(Object *parent = nullptr, std::string name = "loadingAnimation") : Aspen::Graphics::Animation(new Aspen::Graphics::UniformSpritesheet("./resources/hourglass.png", 480, 480, 113, nullptr, "HourglassSpritesheet"), 1.0f / 20.0f, this, "Hourglass")
+  {
+    GetTransform()->SetPosition(320, 220);
+  }
+}
+
 class MainMenu : public GameState
 {
   Aspen::Graphics::UI::Text *title;
+  Aspen::Graphics::Animation *sprite;
 
 public:
   MainMenu(Object *parent = nullptr, std::string name = "MainMenu") : GameState(parent, name)
   {
-    title = new Aspen::Graphics::UI::Text("M", "default", 64, this, "Title");
-    AddChild(title);
-    title->GetTransform()->SetPosition(438, 50);
-    title->GetTransform()->SetScale(0.8, 0.8);
-    title->CreateChild<Aspen::Physics::Rigidbody>()->SetCartesianAcceleration(0.15, 0);
+    // title = new Aspen::Graphics::UI::Text("M", "default", 64, this, "Title");
+    // AddChild(title);
+    // title->GetTransform()->SetPosition(438, 50);
+    // title->GetTransform()->SetScale(0.8, 0.8);
+    // title->CreateChild<Aspen::Physics::Rigidbody>();
+
+    AddChild(sprite);
   }
 
   void OnUpdate()
   {
-    if (Aspen::Input::KeyHeld(SDLK_SPACE))
-    {
-      title->GetRigidbody()->SetCartesianVelocity(0, -5);
-    }
+    // double xv = title->GetRigidbody()->GetVelocityX();
+    // double yv = title->GetRigidbody()->GetVelocityY();
+    // if (Aspen::Input::KeyHeld(SDLK_w))
+    // {
+    //   yv += -0.5;
+    // }
     // if (Aspen::Input::KeyHeld(SDLK_a))
     // {
-    //   Aspen::Log::Info("A is held");
-    //   title->GetTransform()->ModifyPosition(-5, 0);
+    //   xv += -0.5;
     // }
     // if (Aspen::Input::KeyHeld(SDLK_d))
     // {
-    //   Aspen::Log::Info("D is held");
-    //   title->GetTransform()->ModifyPosition(5, 0);
-    // }
-    // if (Aspen::Input::KeyHeld(SDLK_w))
-    // {
-    //   Aspen::Log::Info("W is held");
-    //   title->GetTransform()->ModifyPosition(0, -5);
+    //   xv += 0.5;
     // }
     // if (Aspen::Input::KeyHeld(SDLK_s))
     // {
-    //   Aspen::Log::Info("S is held");
-    //   title->GetTransform()->ModifyPosition(0, 5);
+    //   yv += 0.5;
     // }
+    // title->GetRigidbody()->SetCartesianVelocity(xv, yv);
   }
 };
 
