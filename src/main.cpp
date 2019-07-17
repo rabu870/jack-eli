@@ -11,6 +11,8 @@
 #include "Debug.hpp"
 #include "GameState.hpp"
 #include "Enemy.cpp"
+#include "emptyBuild.cpp"
+#include "Tower.cpp"
 #include <iostream>
 
 using Aspen::Engine::Engine;
@@ -49,13 +51,28 @@ class MainMenu : public GameState
   loadingAnimation *hg;
   enemy *bat;
   background *Background;
+  ArcherTower *position1tower;
+  // emptyBuild *buildPos1;
+  // emptyBuild *buildPos2;
+  // emptyBuild *buildPos3;
+
+  //towerPositions
+  bool isTower = false;
 
 public:
   MainMenu(Object *parent = nullptr, std::string name = "MainMenu") : GameState(parent, name)
   {
+    double XTowerPositions[9] = {216.4, 1023.07, 1555.07, 2021.73, 440.4, 1343.07, 1954.34, 913.73, 1693.74};
+    double YTowerPositions[9] = {278.53, 379.07, 341.73, 379.07, 940.4, 796.4, 799.07, 1317.73, 1210.27};
+
     Background = new background();
     hg = new loadingAnimation();
     bat = new enemy();
+    position1tower = new ArcherTower();
+    position1tower->ArcherPosition(XTowerPositions[0], YTowerPositions[0]);
+    // buildPos1 = new emptyBuild();
+    // buildPos2 = new emptyBuild();
+    // buildPos3 = new emptyBuild();
 
     // title = new Aspen::Graphics::UI::Text("M", "default", 64, this, "Title");
     // AddChild(title);
@@ -65,7 +82,11 @@ public:
     AddChild(Background);
     AddChild(hg);
     AddChild(bat);
+    //AddChild(buildPos1);
 
+    // buildPos1->GetTransform()->SetPosition(216.4, 278.53);
+    // buildPos2->GetTransform()->SetPosition(1023.07, 379.07);
+    // buildPos3->GetTransform()->SetPosition(//216.4, 278.53);
     // AddChild(sprite);
   }
 
@@ -73,30 +94,12 @@ public:
   {
     // double xv = title->GetRigidbody()->GetVelocityX();
     // double yv = title->GetRigidbody()->GetVelocityY();
-    // if (Aspen::Input::KeyHeld(SDLK_w))
-    // {
-    //   yv += -0.5;
-    // }
-    // if (Aspen::Input::KeyHeld(SDLK_a))
-    //   xv += -0.5;
-    // }
-    // if (Aspen::Input::KeyHeld(SDLK_d))
-    // {
-    //   xv += 0.5;
-    // }
-    // if (Aspen::Input::KeyHeld(SDLK_s))
-    // {
-    //   yv += 0.5;
-    // }
-    // title->GetRigidbody()->SetCartesianVelocity(xv, yv);
-    // double xv = title->GetRigidbody()->GetVelocityX();
-    // double yv = title->GetRigidbody()->GetVelocityY();
-    // if (Aspen::Input::KeyHeld(SDLK_w))
-    // {
-    //   yv += -0.5;
-    // }
-    // if (Aspen::Input::KeyHeld(SDLK_a))
-    // {}
+
+    if (Aspen::Input::KeyHeld(SDLK_1) && Aspen::Input::KeyPressed(SDLK_a) && !isTower)
+    {
+      AddChild(position1tower);
+      isTower = true;
+    }
   }
 };
 int main(int argc, char **argv)
