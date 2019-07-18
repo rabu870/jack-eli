@@ -426,7 +426,7 @@ int main(int argc, char **argv)
   gfx->CreateChild<Aspen::Debug::Debug>();
   gfx->CreateChild<Aspen::Graphics::FontCache>();
   engine.FindChildOfType<Aspen::Physics::Physics>()->SetGravityStrength(0);
-  engine.FindChildOfType<Aspen::Physics::Physics>()->SetDrag(0.1);
+  engine.FindChildOfType<Aspen::Physics::Physics>()->SetDrag(0);
   engine.FindChildOfType<Aspen::Time::Time>()->TargetFramerate(60);
   engine.FindChildOfType<Aspen::Graphics::Graphics>()->FindChildOfType<Aspen::Graphics::FontCache>()->LoadFont("resources/ABeeZee-Regular.ttf", "default");
 
