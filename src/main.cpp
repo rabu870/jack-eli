@@ -35,41 +35,36 @@ public:
   }
 };
 
-class loadingAnimation : public Aspen::Graphics::Animation
-{
-public:
-  loadingAnimation(Object *parent = nullptr, std::string name = "loadingAnimation") : Aspen::Graphics::Animation(new Aspen::Graphics::UniformSpritesheet("./resources/hourglass.png", 480, 480, 113, nullptr, "HourglassSpritesheet"), 1.0f / 20.0f, this, "Hourglass")
-  {
-    GetTransform()->SetPosition(640, 360);
-  }
-};
+// class loadingAnimation : public Aspen::Graphics::Animation
+// {
+// public:
+//   loadingAnimation(Object *parent = nullptr, std::string name = "loadingAnimation") : Aspen::Graphics::Animation(new Aspen::Graphics::UniformSpritesheet("./resources/hourglass.png", 480, 480, 113, nullptr, "HourglassSpritesheet"), 1.0f / 20.0f, this, "Hourglass")
+//   {
+//     GetTransform()->SetPosition(640, 360);
+//   }
+// };
 
 class MainMenu : public GameState
 {
   Aspen::Graphics::UI::Text *title;
   Aspen::Graphics::Animation *sprite;
-  loadingAnimation *hg;
+  //loadingAnimation *hg;
   enemy *bat;
   background *Background;
-  ArcherTower *position1tower;
   // emptyBuild *buildPos1;
   // emptyBuild *buildPos2;
   // emptyBuild *buildPos3;
 
   //towerPositions
-  bool isTower = false;
+  bool isTower[9] = {false, false, false, false, false, false, false, false, false};
 
 public:
   MainMenu(Object *parent = nullptr, std::string name = "MainMenu") : GameState(parent, name)
   {
-    double XTowerPositions[9] = {216.4, 1023.07, 1555.07, 2021.73, 440.4, 1343.07, 1954.34, 913.73, 1693.74};
-    double YTowerPositions[9] = {278.53, 379.07, 341.73, 379.07, 940.4, 796.4, 799.07, 1317.73, 1210.27};
 
     Background = new background();
-    hg = new loadingAnimation();
+    //hg = new loadingAnimation();
     bat = new enemy();
-    position1tower = new ArcherTower();
-    position1tower->ArcherPosition(XTowerPositions[0], YTowerPositions[0]);
     // buildPos1 = new emptyBuild();
     // buildPos2 = new emptyBuild();
     // buildPos3 = new emptyBuild();
@@ -80,7 +75,7 @@ public:
     // title->GetTransform()->SetScale(0.8, 0.8);
     // title->CreateChild<Aspen::Physics::Rigidbody>();
     AddChild(Background);
-    AddChild(hg);
+    //AddChild(hg);
     AddChild(bat);
     //AddChild(buildPos1);
 
@@ -92,14 +87,330 @@ public:
 
   void OnUpdate()
   {
+
     // double xv = title->GetRigidbody()->GetVelocityX();
     // double yv = title->GetRigidbody()->GetVelocityY();
-
-    if (Aspen::Input::KeyHeld(SDLK_1) && Aspen::Input::KeyPressed(SDLK_a) && !isTower)
+    double XTowerPositions[9] = {
+        309.4,
+        1505.07,
+        2288.07,
+        2970.73,
+        642.4,
+        1979.7,
+        2875.34,
+        1345.73,
+        2488.74};
+    double YTowerPositions[9] = {
+        288.53,
+        438.07,
+        384.73,
+        438.07,
+        1263.4,
+        1053.4,
+        1056.7,
+        1818.73,
+        1665.27};
+    //tower position 1
+    if (Aspen::Input::KeyHeld(SDLK_a) && Aspen::Input::KeyPressed(SDLK_1) && !isTower[0])
     {
-      AddChild(position1tower);
-      isTower = true;
+      ArcherTower *posTower;
+      posTower = new ArcherTower();
+      posTower->ArcherPosition(XTowerPositions[0], YTowerPositions[0]);
+      AddChild(posTower);
+      isTower[0] = true;
     }
+    else if (Aspen::Input::KeyHeld(SDLK_m) && Aspen::Input::KeyPressed(SDLK_1) && !isTower[0])
+    {
+      MageTower *posTower;
+      posTower = new MageTower();
+      posTower->MagePosition(XTowerPositions[0], YTowerPositions[0]);
+      AddChild(posTower);
+      isTower[0] = true;
+    }
+    else if (Aspen::Input::KeyHeld(SDLK_b) && Aspen::Input::KeyPressed(SDLK_1) && !isTower[0])
+    {
+      BoulderTower *posTower;
+      posTower = new BoulderTower();
+      posTower->BoulderPosition(XTowerPositions[0], YTowerPositions[0]);
+      AddChild(posTower);
+      isTower[0] = true;
+    }
+    //tower position 2
+    if (Aspen::Input::KeyHeld(SDLK_a) && Aspen::Input::KeyPressed(SDLK_2) && !isTower[1])
+    {
+      ArcherTower *posTower;
+      posTower = new ArcherTower();
+      posTower->ArcherPosition(XTowerPositions[1], YTowerPositions[1]);
+      AddChild(posTower);
+      isTower[1] = true;
+    }
+    else if (Aspen::Input::KeyHeld(SDLK_m) && Aspen::Input::KeyPressed(SDLK_2) && !isTower[1])
+    {
+      MageTower *posTower;
+      posTower = new MageTower();
+      posTower->MagePosition(XTowerPositions[1], YTowerPositions[1]);
+      AddChild(posTower);
+      isTower[1] = true;
+    }
+    else if (Aspen::Input::KeyHeld(SDLK_b) && Aspen::Input::KeyPressed(SDLK_2) && !isTower[1])
+    {
+      BoulderTower *posTower;
+      posTower = new BoulderTower();
+      posTower->BoulderPosition(XTowerPositions[1], YTowerPositions[1]);
+      AddChild(posTower);
+      isTower[1] = true;
+    }
+    //tower position 3
+    if (Aspen::Input::KeyHeld(SDLK_a) && Aspen::Input::KeyPressed(SDLK_3) && !isTower[2])
+    {
+      ArcherTower *posTower;
+      posTower = new ArcherTower();
+      posTower->ArcherPosition(XTowerPositions[2], YTowerPositions[2]);
+      AddChild(posTower);
+      isTower[2] = true;
+    }
+    else if (Aspen::Input::KeyHeld(SDLK_m) && Aspen::Input::KeyPressed(SDLK_3) && !isTower[2])
+    {
+      MageTower *posTower;
+      posTower = new MageTower();
+      posTower->MagePosition(XTowerPositions[2], YTowerPositions[2]);
+      AddChild(posTower);
+      isTower[2] = true;
+    }
+    else if (Aspen::Input::KeyHeld(SDLK_b) && Aspen::Input::KeyPressed(SDLK_3) && !isTower[2])
+    {
+      BoulderTower *posTower;
+      posTower = new BoulderTower();
+      posTower->BoulderPosition(XTowerPositions[2], YTowerPositions[2]);
+      AddChild(posTower);
+      isTower[2] = true;
+    }
+    //tower position 4
+    if (Aspen::Input::KeyHeld(SDLK_a) && Aspen::Input::KeyPressed(SDLK_4) && !isTower[3])
+    {
+      ArcherTower *posTower;
+      posTower = new ArcherTower();
+      posTower->ArcherPosition(XTowerPositions[3], YTowerPositions[3]);
+      AddChild(posTower);
+      isTower[3] = true;
+    }
+    else if (Aspen::Input::KeyHeld(SDLK_m) && Aspen::Input::KeyPressed(SDLK_4) && !isTower[3])
+    {
+      MageTower *posTower;
+      posTower = new MageTower();
+      posTower->MagePosition(XTowerPositions[3], YTowerPositions[3]);
+      AddChild(posTower);
+      isTower[3] = true;
+    }
+    else if (Aspen::Input::KeyHeld(SDLK_b) && Aspen::Input::KeyPressed(SDLK_4) && !isTower[3])
+    {
+      BoulderTower *posTower;
+      posTower = new BoulderTower();
+      posTower->BoulderPosition(XTowerPositions[3], YTowerPositions[3]);
+      AddChild(posTower);
+      isTower[3] = true;
+    }
+    //tower position 5
+    if (Aspen::Input::KeyHeld(SDLK_a) && Aspen::Input::KeyPressed(SDLK_5) && !isTower[4])
+    {
+      ArcherTower *posTower;
+      posTower = new ArcherTower();
+      posTower->ArcherPosition(XTowerPositions[4], YTowerPositions[4]);
+      AddChild(posTower);
+      isTower[4] = true;
+    }
+    else if (Aspen::Input::KeyHeld(SDLK_m) && Aspen::Input::KeyPressed(SDLK_5) && !isTower[4])
+    {
+      MageTower *posTower;
+      posTower = new MageTower();
+      posTower->MagePosition(XTowerPositions[4], YTowerPositions[4]);
+      AddChild(posTower);
+      isTower[4] = true;
+    }
+    else if (Aspen::Input::KeyHeld(SDLK_b) && Aspen::Input::KeyPressed(SDLK_5) && !isTower[4])
+    {
+      BoulderTower *posTower;
+      posTower = new BoulderTower();
+      posTower->BoulderPosition(XTowerPositions[4], YTowerPositions[4]);
+      AddChild(posTower);
+      isTower[4] = true;
+    }
+    //tower position 6
+    if (Aspen::Input::KeyHeld(SDLK_a) && Aspen::Input::KeyPressed(SDLK_6) && !isTower[5])
+    {
+      ArcherTower *posTower;
+      posTower = new ArcherTower();
+      posTower->ArcherPosition(XTowerPositions[5], YTowerPositions[5]);
+      AddChild(posTower);
+      isTower[5] = true;
+    }
+    else if (Aspen::Input::KeyHeld(SDLK_m) && Aspen::Input::KeyPressed(SDLK_6) && !isTower[5])
+    {
+      MageTower *posTower;
+      posTower = new MageTower();
+      posTower->MagePosition(XTowerPositions[5], YTowerPositions[5]);
+      AddChild(posTower);
+      isTower[5] = true;
+    }
+    else if (Aspen::Input::KeyHeld(SDLK_b) && Aspen::Input::KeyPressed(SDLK_6) && !isTower[5])
+    {
+      BoulderTower *posTower;
+      posTower = new BoulderTower();
+      posTower->BoulderPosition(XTowerPositions[5], YTowerPositions[5]);
+      AddChild(posTower);
+      isTower[5] = true;
+    }
+    //tower position 7
+    if (Aspen::Input::KeyHeld(SDLK_a) && Aspen::Input::KeyPressed(SDLK_7) && !isTower[6])
+    {
+      ArcherTower *posTower;
+      posTower = new ArcherTower();
+      posTower->ArcherPosition(XTowerPositions[6], YTowerPositions[6]);
+      AddChild(posTower);
+      isTower[6] = true;
+    }
+    else if (Aspen::Input::KeyHeld(SDLK_m) && Aspen::Input::KeyPressed(SDLK_7) && !isTower[6])
+    {
+      MageTower *posTower;
+      posTower = new MageTower();
+      posTower->MagePosition(XTowerPositions[6], YTowerPositions[6]);
+      AddChild(posTower);
+      isTower[6] = true;
+    }
+    else if (Aspen::Input::KeyHeld(SDLK_b) && Aspen::Input::KeyPressed(SDLK_7) && !isTower[6])
+    {
+      BoulderTower *posTower;
+      posTower = new BoulderTower();
+      posTower->BoulderPosition(XTowerPositions[6], YTowerPositions[6]);
+      AddChild(posTower);
+      isTower[6] = true;
+    }
+    //tower position 8
+    if (Aspen::Input::KeyHeld(SDLK_a) && Aspen::Input::KeyPressed(SDLK_8) && !isTower[7])
+    {
+      ArcherTower *posTower;
+      posTower = new ArcherTower();
+      posTower->ArcherPosition(XTowerPositions[7], YTowerPositions[7]);
+      AddChild(posTower);
+      isTower[7] = true;
+    }
+    else if (Aspen::Input::KeyHeld(SDLK_m) && Aspen::Input::KeyPressed(SDLK_8) && !isTower[7])
+    {
+      MageTower *posTower;
+      posTower = new MageTower();
+      posTower->MagePosition(XTowerPositions[7], YTowerPositions[7]);
+      AddChild(posTower);
+      isTower[7] = true;
+    }
+    else if (Aspen::Input::KeyHeld(SDLK_b) && Aspen::Input::KeyPressed(SDLK_8) && !isTower[7])
+    {
+      BoulderTower *posTower;
+      posTower = new BoulderTower();
+      posTower->BoulderPosition(XTowerPositions[7], YTowerPositions[7]);
+      AddChild(posTower);
+      isTower[7] = true;
+    }
+    //tower position 9
+    if (Aspen::Input::KeyHeld(SDLK_a) && Aspen::Input::KeyPressed(SDLK_9) && !isTower[8])
+    {
+      ArcherTower *posTower;
+      posTower = new ArcherTower();
+      posTower->ArcherPosition(XTowerPositions[8], YTowerPositions[8]);
+      AddChild(posTower);
+      isTower[8] = true;
+    }
+    else if (Aspen::Input::KeyHeld(SDLK_m) && Aspen::Input::KeyPressed(SDLK_9) && !isTower[8])
+    {
+      MageTower *posTower;
+      posTower = new MageTower();
+      posTower->MagePosition(XTowerPositions[8], YTowerPositions[8]);
+      AddChild(posTower);
+      isTower[8] = true;
+    }
+    else if (Aspen::Input::KeyHeld(SDLK_b) && Aspen::Input::KeyPressed(SDLK_9) && !isTower[8])
+    {
+      BoulderTower *posTower;
+      posTower = new BoulderTower();
+      posTower->BoulderPosition(XTowerPositions[8], YTowerPositions[8]);
+      AddChild(posTower);
+      isTower[8] = true;
+    }
+
+    // if (Aspen::Input::KeyHeld(SDLK_1) && !isTower1)
+    // {
+    //   defTower(SDLK_1, SDLK_a, 0);
+    // }
+    // else if (Aspen::Input::KeyHeld(SDLK_2) && Aspen::Input::KeyPressed(SDLK_a) && !isTower2)
+    // {
+    //   ArcherTower *posTower;
+    //   posTower = new ArcherTower();
+    //   posTower->ArcherPosition(XTowerPositions[1], YTowerPositions[1]);
+    //   AddChild(posTower);
+    //   isTower2 = true;
+    // }
+
+    // else if (Aspen::Input::KeyHeld(SDLK_3) && Aspen::Input::KeyPressed(SDLK_a) && !isTower3)
+    // {
+    //   ArcherTower *posTower;
+    //   posTower = new ArcherTower();
+    //   posTower->ArcherPosition(XTowerPositions[2], YTowerPositions[2]);
+    //   AddChild(posTower);
+    //   isTower3 = true;
+    // }
+
+    // else if (Aspen::Input::KeyHeld(SDLK_4) && Aspen::Input::KeyPressed(SDLK_a) && !isTower4)
+    // {
+    //   ArcherTower *posTower;
+    //   posTower = new ArcherTower();
+    //   posTower->ArcherPosition(XTowerPositions[3], YTowerPositions[3]);
+    //   AddChild(posTower);
+    //   isTower4 = true;
+    // }
+
+    // else if (Aspen::Input::KeyHeld(SDLK_5) && Aspen::Input::KeyPressed(SDLK_a) && !isTower5)
+    // {
+    //   ArcherTower *posTower;
+    //   posTower = new ArcherTower();
+    //   posTower->ArcherPosition(XTowerPositions[4], YTowerPositions[4]);
+    //   AddChild(posTower);
+    //   isTower5 = true;
+    // }
+
+    // else if (Aspen::Input::KeyHeld(SDLK_6) && Aspen::Input::KeyPressed(SDLK_a) && !isTower6)
+    // {
+    //   ArcherTower *posTower;
+    //   posTower = new ArcherTower();
+    //   posTower->ArcherPosition(XTowerPositions[5], YTowerPositions[5]);
+    //   AddChild(posTower);
+    //   isTower6 = true;
+    // }
+
+    // else if (Aspen::Input::KeyHeld(SDLK_7) && Aspen::Input::KeyPressed(SDLK_a) && !isTower7)
+    // {
+    //   ArcherTower *posTower;
+    //   posTower = new ArcherTower();
+    //   posTower->ArcherPosition(XTowerPositions[6], YTowerPositions[6]);
+    //   AddChild(posTower);
+    //   isTower7 = true;
+    // }
+
+    // else if (Aspen::Input::KeyHeld(SDLK_8) && Aspen::Input::KeyPressed(SDLK_a) && !isTower8)
+    // {
+    //   ArcherTower *posTower;
+    //   posTower = new ArcherTower();
+    //   posTower->ArcherPosition(XTowerPositions[7], YTowerPositions[7]);
+    //   AddChild(posTower);
+    //   isTower8 = true;
+    // }
+
+    // else if (Aspen::Input::KeyHeld(SDLK_9) && Aspen::Input::KeyPressed(SDLK_a) && !isTower9)
+    // {
+    //   ArcherTower *posTower;
+    //   posTower = new ArcherTower();
+    //   posTower->ArcherPosition(XTowerPositions[8], YTowerPositions[8]);
+    //   AddChild(posTower);
+    //   isTower9 = true;
+    // }
   }
 };
 int main(int argc, char **argv)
