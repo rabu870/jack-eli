@@ -14,7 +14,7 @@
 
 class tower : public Aspen::Object::Object
 {
-    double radius = 50;
+    double radius = 75;
     int damageDealt = 3;
     float attackSpeed = 1.0f / 90.0f;
     int AttackCooldown = 0;
@@ -30,22 +30,30 @@ public:
         Aspen::Physics::CircleCollider *cc = CreateChild<Aspen::Physics::CircleCollider>();
         cc->SetRadius(radius);
         cc->SetTrigger(true);
+        radius /= 0.34;
     }
 
     void OnUpdate()
     {
         AttackCooldown += 1;
-    }
-
-    void OnCollision(Aspen::Physics::Collision c)
-    {
-        if (c.collider->Parent()->Name() == "enemy")
+        for (unsigned i = 0; i < Parent()->ChildrenCount(); ++i)
         {
-            if (AttackCooldown > 1.0f / attackSpeed)
+            Aspen::Object::Object *s = Parent()->Children()[i];
+            enemy *e = dynamic_cast<enemy *>(s);
+            if (e)
             {
-                dynamic_cast<enemy *>(c.collider->Parent())->TakeDamage(damageDealt);
-                Aspen::Log::Debug("Hitting! %d", dynamic_cast<enemy *>(c.collider->Parent())->health);
-                AttackCooldown = 0;
+                float dx = e->GetTransform()->GetXPosition() - GetTransform()->GetXPosition();
+                float dy = e->GetTransform()->GetYPosition() - GetTransform()->GetYPosition();
+                float d = dx * dx + dy * dy;
+                if (d <= radius * radius && e->health > 0)
+                {
+                    if (AttackCooldown > 1.0f / attackSpeed)
+                    {
+                        e->TakeDamage(damageDealt);
+                        Aspen::Log::Debug("Hitting! %d", e->health);
+                        AttackCooldown = 0;
+                    }
+                }
             }
         }
     }
