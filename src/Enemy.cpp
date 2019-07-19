@@ -19,6 +19,11 @@ enemy::enemy(Object *parent, std::string name) : Aspen::Object::Object(parent, n
     forward = new Aspen::Graphics::Animation(new Aspen::Graphics::UniformSpritesheet("./resources/sprites/bat/forward-lg.png", 16 * 8, 24 * 8, 5, nullptr, "BatFwd"), 1.0f / 10.0f, this, "Animation");
     backwards = new Aspen::Graphics::Animation(new Aspen::Graphics::UniformSpritesheet("./resources/sprites/bat/backwards-lg.png", 16 * 8, 24 * 8, 5, nullptr, "BatBckd"), 1.0f / 10.0f, this, "Animation");
     death = new Aspen::Graphics::Animation(new Aspen::Graphics::UniformSpritesheet("./resources/sprites/bat/death-lg.png", 16 * 8, 24 * 8, 5, nullptr, "BatDeath"), 1.0f / 10.0f, this, "Animation");
+
+    healthbar = new Aspen::Graphics::Animation(new Aspen::Graphics::UniformSpritesheet("./resources/healthbar.png", 256, 256, 11, nullptr, "HealthBar"), 0, this, "Animation");
+    healthbar->GetTransform()->ModifyYPosition(-64);
+    AddChild(healthbar);
+
     AddChild(forward);
     AddChild(backwards);
     AddChild(death);
@@ -32,6 +37,11 @@ enemy::enemy(Object *parent, std::string name) : Aspen::Object::Object(parent, n
 
 void enemy::OnUpdate()
 {
+
+    float hpbar = (1 - float(health) / float(maxHP)) * healthbar->GetFrameCount();
+    healthbar->SetFrame(int(hpbar));
+    Aspen::Log::Debug("HP Bar: %f, %d, %d", hpbar, health, maxHP);
+
     if (currentNode < sizeof(arrayY) / sizeof(float) && currentNode < sizeof(arrayX) / sizeof(float))
     {
         float dy = arrayY[currentNode] - GetTransform()->GetYPosition();

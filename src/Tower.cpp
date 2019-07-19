@@ -27,7 +27,9 @@ public:
         CreateChild<Aspen::Transform::Transform>();
         GetTransform()->SetPosition(0, 0);
         GetTransform()->SetScale(0.34, 0.34);
-        CreateChild<Aspen::Physics::CircleCollider>()->SetRadius(radius);
+        Aspen::Physics::CircleCollider *cc = CreateChild<Aspen::Physics::CircleCollider>();
+        cc->SetRadius(radius);
+        cc->SetTrigger(true);
     }
 
     void OnUpdate()
