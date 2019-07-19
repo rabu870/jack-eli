@@ -38,12 +38,19 @@ void enemy::OnUpdate()
         float dx = arrayX[currentNode] - GetTransform()->GetXPosition();
 
         GetRigidbody()->SetCartesianVelocity(dx, dy);
-        GetRigidbody()->SetVelocityStrength(.6 * 6);
+        if (health > 0)
+        {
+            GetRigidbody()->SetVelocityStrength(.6 * 6);
+        }
+        else
+        {
+            GetRigidbody()->SetVelocityStrength(0);
+        }
         // if (GetTransform()->GetXPosition() == arrayX[currentNode] && GetTransform()->GetYPosition() == arrayY[currentNode])
         float r = 20;
         if (dy * dy + dx * dx < r * r)
         {
-            Aspen::Log::Debug("Close!");
+            //Aspen::Log::Debug("Close!");
             if (currentNode == 8)
             {
                 forward->Deactivate();
@@ -54,6 +61,19 @@ void enemy::OnUpdate()
     }
     else
         GetRigidbody()->SetVelocityStrength(0);
+
+    if (death->Active())
+    {
+        if (death->GetFrame() == death->GetFrameCount() - 1)
+        {
+            death->SetFrameDelay(0);
+            deathTimer += Aspen::Engine::Engine::Get()->FindChildOfType<Aspen::Time::Time>()->DeltaTime();
+        }
+        if (deathTimer > 3)
+        {
+            End();
+        }
+    }
 }
 
 void enemy::TakeDamage(int damage)
@@ -62,6 +82,10 @@ void enemy::TakeDamage(int damage)
 
     if (health <= 0)
     {
-        End();
+        GetRigidbody()->SetVelocityStrength(0);
+        forward->Deactivate();
+        backwards->Deactivate();
+        death->Activate();
+        //End();
     }
 }
