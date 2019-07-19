@@ -13,7 +13,7 @@
 #include <iostream>
 #include <math.h>
 
-enemy::enemy(Object *parent = nullptr, std::string name = "enemy") : Aspen::Object::Object(parent, name)
+enemy::enemy(Object *parent, std::string name) : Aspen::Object::Object(parent, name)
 {
     CreateChild<Aspen::Transform::Transform>();
     forward = new Aspen::Graphics::Animation(new Aspen::Graphics::UniformSpritesheet("./resources/sprites/bat/forward-lg.png", 16 * 8, 24 * 8, 5, nullptr, "BatFwd"), 1.0f / 10.0f, this, "Animation");
@@ -41,7 +41,6 @@ void enemy::OnUpdate()
         GetRigidbody()->SetVelocityStrength(.6 * 6);
         // if (GetTransform()->GetXPosition() == arrayX[currentNode] && GetTransform()->GetYPosition() == arrayY[currentNode])
         float r = 20;
-        Aspen::Log::Debug("%f, %f", dx, dy);
         if (dy * dy + dx * dx < r * r)
         {
             Aspen::Log::Debug("Close!");

@@ -14,10 +14,10 @@ class enemy : public Aspen::Object::Object
     float arrayY[20] = {356.0f, 405.0f, 531.0f, 568.0f, 568.0f, 512.0f, 507.0f, 478.0f, 409.0f, 314.0f, 282.0f, 230.0f, 117.0f, 57.0f, 137.0f, 239.0f, 289.0f, 289.0f, 235.0f, 235.0f};
 
 public:
-    int health = 1001;
+    int health = 100;
     enemy(Object *parent = nullptr, std::string name = "enemy");
     void OnUpdate();
     void TakeDamage(int damage);
-}
+};
 
 #endif
