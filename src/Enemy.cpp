@@ -23,7 +23,7 @@ enemy::enemy(Object *parent, std::string name) : Aspen::Object::Object(parent, n
     death = new Aspen::Graphics::Animation(new Aspen::Graphics::UniformSpritesheet("./resources/sprites/bat/death-lg.png", 16 * 8, 24 * 8, 5, nullptr, "BatDeath"), 1.0f / 10.0f, this, "Animation");
 
     healthbar = new Aspen::Graphics::Animation(new Aspen::Graphics::UniformSpritesheet("./resources/healthbar.png", 256, 256, 11, nullptr, "HealthBar"), 0, this, "Animation");
-    healthbar->GetTransform()->ModifyYPosition(-64);
+    healthbar->GetTransform()->ModifyYPosition(-80);
     AddChild(healthbar);
 
     AddChild(forward);
@@ -42,7 +42,7 @@ void enemy::OnUpdate()
 {
 
     float hpbar = (1 - float(health) / float(maxHP)) * healthbar->GetFrameCount();
-    healthbar->SetFrame(int(hpbar));
+    healthbar->SetFrame(health <= 0 ? 10 : int(hpbar));
     Aspen::Log::Debug("HP Bar: %f, %d, %d", hpbar, health, maxHP);
 
     if (currentNode < (sizeof(arrayY) / sizeof(float)) - 1 && currentNode < (sizeof(arrayX) / sizeof(float)) - 1)
@@ -53,7 +53,7 @@ void enemy::OnUpdate()
         GetRigidbody()->SetCartesianVelocity(dx, dy);
         if (health > 0)
         {
-            GetRigidbody()->SetVelocityStrength(.6 * 16);
+            GetRigidbody()->SetVelocityStrength(.6 * 6);
         }
         else
         {
@@ -79,7 +79,7 @@ void enemy::OnUpdate()
 
         GetRigidbody()->SetCartesianVelocity(dx, dy);
 
-        GetRigidbody()->SetVelocityStrength(.6 * 16);
+        GetRigidbody()->SetVelocityStrength(.6 * 6);
 
         // if (GetTransform()->GetXPosition() == arrayX[currentNode] && GetTransform()->GetYPosition() == arrayY[currentNode])
         float r = 20;

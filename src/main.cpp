@@ -50,6 +50,7 @@ class MainMenu : public GameState
 {
   Aspen::Graphics::UI::Text *title;
   Aspen::Graphics::Animation *sprite;
+  Aspen::Graphics::Animation *playerhealthbar;
   //loadingAnimation *hg;
   enemy *bat;
   background *Background;
@@ -66,6 +67,7 @@ public:
     Background = new background();
     //hg = new loadingAnimation();
     bat = new enemy();
+    playerhealthbar = new Aspen::Graphics::Animation(new Aspen::Graphics::UniformSpritesheet("./resources/healthbar.png", 256, 256, 11, nullptr, "HealthBar"), 0, this, "Animation");
     // buildPos1 = new emptyBuild();
     // buildPos2 = new emptyBuild();
     // buildPos3 = new emptyBuild();
@@ -78,6 +80,9 @@ public:
     AddChild(Background);
     //AddChild(hg);
     AddChild(bat);
+    AddChild(playerhealthbar);
+    playerhealthbar->GetTransform()->SetPosition(50.5, 20.5);
+    playerhealthbar->GetTransform()->SetScale(2, 2);
     //AddChild(buildPos1);
 
     // buildPos1->GetTransform()->SetPosition(216.4, 278.53);
@@ -88,6 +93,9 @@ public:
 
   void OnUpdate()
   {
+
+    float hpbar1 = (1 - float(playerHealth) / float(10)) * playerhealthbar->GetFrameCount();
+    playerhealthbar->SetFrame(playerHealth <= 0 ? 10 : int(hpbar1));
 
     if (playerHealth <= 0)
     {
