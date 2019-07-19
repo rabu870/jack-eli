@@ -17,7 +17,8 @@ class enemy : public Aspen::Object::Object
 
 public:
     bool crossed = false;
-    int health = 100;
+    int maxHP = 100;
+    int health = maxHP;
     enemy(Object *parent = nullptr, std::string name = "enemy");
     void OnUpdate();
     void TakeDamage(int damage);
