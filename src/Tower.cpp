@@ -42,7 +42,7 @@ public:
                 float dx = e->GetTransform()->GetXPosition() - GetTransform()->GetXPosition();
                 float dy = e->GetTransform()->GetYPosition() - GetTransform()->GetYPosition();
                 float d = dx * dx + dy * dy;
-                if (d <= radius * radius && e->health > 0)
+                if (d <= radius * radius && e->health > 0 && e->crossed == false)
                 {
                     if (AttackCooldown > 1.0f / attackSpeed)
                     {

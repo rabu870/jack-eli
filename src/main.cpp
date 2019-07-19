@@ -21,6 +21,8 @@ using Aspen::GameState::GameStateManager;
 using Aspen::Graphics::Graphics;
 using Aspen::Object::Object;
 
+int playerHealth = 10;
+
 void ChangeScene(Aspen::Graphics::UI::Button *button, std::string scene, GameStateManager *gsm)
 {
   gsm->SetCurrentState(scene);
@@ -86,6 +88,11 @@ public:
 
   void OnUpdate()
   {
+
+    if (playerHealth <= 0)
+    {
+      Aspen::Log::Debug("Game lost!");
+    }
 
     // double xv = title->GetRigidbody()->GetVelocityX();
     // double yv = title->GetRigidbody()->GetVelocityY();

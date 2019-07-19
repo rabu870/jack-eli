@@ -13,6 +13,8 @@
 #include <iostream>
 #include <math.h>
 
+extern int playerHealth;
+
 enemy::enemy(Object *parent, std::string name) : Aspen::Object::Object(parent, name)
 {
     CreateChild<Aspen::Transform::Transform>();
@@ -28,11 +30,12 @@ enemy::enemy(Object *parent, std::string name) : Aspen::Object::Object(parent, n
     GetTransform()->SetPosition(-170, 1437);
     CreateChild<Aspen::Physics::Rigidbody>();
     CreateChild<Aspen::Physics::CircleCollider>()->SetRadius(16);
+    changedHealth = false;
 }
 
 void enemy::OnUpdate()
 {
-    if (currentNode < sizeof(arrayY) / sizeof(float) && currentNode < sizeof(arrayX) / sizeof(float))
+    if (currentNode < (sizeof(arrayY) / sizeof(float)) - 1 && currentNode < (sizeof(arrayX) / sizeof(float)) - 1)
     {
         float dy = arrayY[currentNode] - GetTransform()->GetYPosition();
         float dx = arrayX[currentNode] - GetTransform()->GetXPosition();
@@ -40,7 +43,7 @@ void enemy::OnUpdate()
         GetRigidbody()->SetCartesianVelocity(dx, dy);
         if (health > 0)
         {
-            GetRigidbody()->SetVelocityStrength(.6 * 6);
+            GetRigidbody()->SetVelocityStrength(.6 * 16);
         }
         else
         {
@@ -59,8 +62,33 @@ void enemy::OnUpdate()
             currentNode++;
         }
     }
+    else if (currentNode < sizeof(arrayY) / sizeof(float) && currentNode < sizeof(arrayX) / sizeof(float))
+    {
+        float dy = arrayY[currentNode] - GetTransform()->GetYPosition();
+        float dx = arrayX[currentNode] - GetTransform()->GetXPosition();
+
+        GetRigidbody()->SetCartesianVelocity(dx, dy);
+
+        GetRigidbody()->SetVelocityStrength(.6 * 16);
+
+        // if (GetTransform()->GetXPosition() == arrayX[currentNode] && GetTransform()->GetYPosition() == arrayY[currentNode])
+        float r = 20;
+        if (dy * dy + dx * dx < r * r)
+        {
+            currentNode++;
+        }
+        if (!changedHealth)
+        {
+            crossed = true;
+            changedHealth = true;
+            --playerHealth;
+            Aspen::Log::Debug("%d", playerHealth);
+        }
+    }
     else
-        GetRigidbody()->SetVelocityStrength(0);
+    {
+        End();
+    }
 
     if (death->Active())
     {
