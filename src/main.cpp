@@ -49,11 +49,11 @@ class MainMenu : public GameState
   Aspen::Graphics::UI::Text *title;
   Aspen::Graphics::Animation *sprite;
   //loadingAnimation *hg;
-  enemy *bat;
   background *Background;
-  // emptyBuild *buildPos1;
-  // emptyBuild *buildPos2;
-  // emptyBuild *buildPos3;
+
+  // int batSpawnCD = 0;
+  // int batSpawnTime = 300;
+  // int batNum = 1;
 
   //towerPositions
   bool isTower[9] = {false, false, false, false, false, false, false, false, false};
@@ -63,7 +63,6 @@ public:
   {
     Background = new background();
     //hg = new loadingAnimation();
-    bat = new enemy();
     // buildPos1 = new emptyBuild();
     // buildPos2 = new emptyBuild();
     // buildPos3 = new emptyBuild();
@@ -75,7 +74,8 @@ public:
     // title->CreateChild<Aspen::Physics::Rigidbody>();
     AddChild(Background);
     //AddChild(hg);
-    AddChild(bat);
+    AddChild(new enemy());
+
     //AddChild(buildPos1);
 
     // buildPos1->GetTransform()->SetPosition(216.4, 278.53);
@@ -86,7 +86,13 @@ public:
 
   void OnUpdate()
   {
-
+    // batSpawnCD++;
+    // if (batSpawnCD >= batSpawnTime)
+    // {
+    //   AddChild(new enemy());
+    //   batNum++;
+    //   batSpawnCD = 0;
+    // }
     // double xv = title->GetRigidbody()->GetVelocityX();
     // double yv = title->GetRigidbody()->GetVelocityY();
     double XTowerPositions[9] = {
