@@ -10,7 +10,7 @@
 #include "Input.hpp"
 #include "Debug.hpp"
 #include "GameState.hpp"
-#include "Enemy.cpp"
+#include "Enemy.hpp"
 #include "emptyBuild.cpp"
 #include "Tower.cpp"
 #include <iostream>
@@ -61,7 +61,6 @@ class MainMenu : public GameState
 public:
   MainMenu(Object *parent = nullptr, std::string name = "MainMenu") : GameState(parent, name)
   {
-
     Background = new background();
     //hg = new loadingAnimation();
     bat = new enemy();
